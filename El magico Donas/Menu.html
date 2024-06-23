@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<body background="..\Fotos magico donas/fondo.jpg" style="background-respeat:no-repea;background-size:cover;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Donas</title>
+    <style>
+	header {
+            background-color: #FEC7EC   ;
+            color: #BB8FCE;
+            padding: 1px 00;
+            text-align: center;
+        }
+
+	.container{
+            max-width: 800px;
+            margin: auto;
+            background-color: #FEC7EC   ;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        /* Estilos opcionales para mejorar la apariencia */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10;
+            padding: 0;
+        }
+        .menu-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+            overflow: hidden;
+        }
+        .menu-item img {
+            float: left;
+            margin-right: 20px;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        .menu-item h2 {
+            margin-top: 0;
+        }
+        .menu-item p {
+            margin-bottom: 10px;
+        }
+        .menu-item span.price {
+            font-weight: bold;
+        }
+        #cart {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .menu-item button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<header>
+
+ <CENTER><FONT SIZE=6 FACE="Cooper Black" COLOR="7FB3D5"><h1>carrito de compras</h1></font></CENTER>
+</header>
+<br>
+<br>
+<div class="container">
+<center><h1>Menú de Donas</h1></center>
+
+<div id="cart">Carrito: 0 productos</div>
+
+<div class="menu-item" data-producto="Dona de Chocolate" data-precio="1.50">
+    <img src="..\Fotos magico donas\dc.jfif" alt="Dona de chocolate">
+    <h2>Dona de Chocolate con nieve napolitano</h2>
+    <p>Deliciosa dona cubierta con chocolate negro y adornada con virutas de chocolate blanco.</p>
+    <span class="price">$1.50</span>
+    <button onclick="agregarProducto(this)">Agregar</button>
+    <button onclick="eliminarProducto(this)">Eliminar</button>
+</div>
+
+<div class="menu-item" data-producto="Dona de Fresa" data-precio="1.75">
+    <img src="dona2.jpg" alt="Dona de fresa">
+    <h2>Dona de Fresa</h2>
+    <p>Esponjosa dona glaseada con un delicioso y dulce glaseado de fresa.</p>
+    <span class="price">$1.75</span>
+    <button onclick="agregarProducto(this)">Agregar</button>
+    <button onclick="eliminarProducto(this)">Eliminar</button>
+</div>
+
+<div class="menu-item" data-producto="Dona de Vainilla" data-precio="1.50">
+    <img src="dona3.jpg" alt="Dona de vainilla">
+    <h2>Dona de Vainilla</h2>
+    <p>Dona clásica con un glaseado de vainilla cremoso y un toque de sprinkles.</p>
+    <span class="price">$1.50</span>
+    <button onclick="agregarProducto(this)">Agregar</button>
+    <button onclick="eliminarProducto(this)">Eliminar</button>
+</div>
+
+<script>
+    let carrito = [];
+    let total = 0;
+
+    function agregarProducto(btn) {
+        let producto = btn.parentNode.dataset.producto;
+        let precio = parseFloat(btn.parentNode.dataset.precio);
+        total += precio;
+        actualizarCarrito(producto, precio);
+    }
+
+    function eliminarProducto(btn) {
+        let producto = btn.parentNode.dataset.producto;
+        let precio = parseFloat(btn.parentNode.dataset.precio);
+        for (let i = 0; i < carrito.length; i++) {
+            if (carrito[i].producto === producto) {
+                if (carrito[i].cantidad === 1) {
+                    carrito.splice(i, 1);
+                    total -= precio;
+                } else {
+                    carrito[i].cantidad--;
+                    total -= precio;
+                }
+                break;
+            }
+        }
+        mostrarCarrito();
+    }
+
+    function actualizarCarrito(producto, precio) {
+        let encontrado = false;
+        for (let i = 0; i < carrito.length; i++) {
+            if (carrito[i].producto === producto) {
+                carrito[i].cantidad++;
+                encontrado = true;
+                break;
+            }
+        }
+        if (!encontrado) {
+            carrito.push({ producto: producto, cantidad: 1, precio: precio });
+        }
+        mostrarCarrito();
+    }
+
+    function mostrarCarrito() {
+        let carritoDiv = document.getElementById('cart');
+        carritoDiv.innerHTML = 'Carrito: ';
+        let totalCantidad = 0;
+        for (let i = 0; i < carrito.length; i++) {
+            carritoDiv.innerHTML += carrito[i].cantidad + ' ' + carrito[i].producto + ' ';
+            totalCantidad += carrito[i].cantidad;
+        }
+        carritoDiv.innerHTML += '<br>Total: $' + total.toFixed(2);
+        carritoDiv.innerHTML += '<br>Total de productos: ' + totalCantidad;
+    }
+</script>
+
+</body>
+</html>
